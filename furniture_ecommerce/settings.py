@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'drf_yasg',
+    'drf_spectacular',
     # third party apps
     'users',
 ]
@@ -64,9 +64,34 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
 
 }
+"""spectacular settings:"""
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Furniture e-commerce api',
+    'DESCRIPTION': 'This is an API for online furniture store',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,  # Don't include the schema in the URL
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,  # Enable deep linking for Swagger UI
+        'defaultModelsExpandDepth': -1,  # Disable models section if not needed
+    },
+    'COMPONENT_SPLIT_REQUEST': True,  # Split request and response for better organization
+    'SECURITY': [
+        {
+            'BearerAuth': [],
+        }
+    ],
+    'COMPONENT_SECURITY_SCHEMES': {
+        'BearerAuth': {
+            'type': 'http',
+            'scheme': 'bearer',
+            'bearerFormat': 'JWT',
+        }
+    },
+}
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',  # Keep this for drf-yasg compatibility
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
