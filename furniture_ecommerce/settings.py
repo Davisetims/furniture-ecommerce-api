@@ -52,8 +52,47 @@ INSTALLED_APPS = [
 
 ]
 
+X_FRAME_OPTIONS = 'ALLOWALL'
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+"""# Content Security Policy settings"""
+CSP_DEFAULT_SRC = ("'self'",)
+
+"""# Allow embedding in iframes from these specific origins"""
+CSP_FRAME_ANCESTORS = ("'self'", 'https://cessfuniture.netlify.app',
+                        "http://localhost:5173",
+                        "http://localhost:5174")
+
+
+CORS_ALLOW_ALL_HEADERS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://cessfuniture.netlify.app'
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://cessfuniture.netlify.app'
+
+]
+
+
 SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,  # Disable session authentication in Swagger
+    'USE_SESSION_AUTH': False,  
     'SECURITY_DEFINITIONS': {
         'Bearer': {
             'type': 'apiKey',
