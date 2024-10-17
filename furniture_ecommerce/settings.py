@@ -38,6 +38,7 @@ ALLOWED_HOSTS = [
                  'localhost:5174',
                  '127.0.0.1',
                 'cessfuniture.netlify.app',
+                'furniture-ecommerce-api-production.up.railway.app',
                  
 ]
 
