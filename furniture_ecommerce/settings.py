@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'users',
     'products',
     'carts',
+    'orders',
 
 ]
 
@@ -157,7 +158,6 @@ if DEBUG == False or POSTGRES_LOCALLY == True:
         )
 
     }
-    print("postgress")
 else:
     DATABASES = {
         'default': {
