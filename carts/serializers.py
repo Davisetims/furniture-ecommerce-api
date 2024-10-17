@@ -30,12 +30,12 @@ class CartSerializer(serializers.ModelSerializer):
         # Adjust the inventory after validation and before saving
         product = validated_data.get('product')
         quantity = validated_data.get('quantity')
-        self.update_inventory(product, quantity)
+        # self.update_inventory(product, quantity)
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
         # Adjust the inventory during updates
         product = validated_data.get('product')
         quantity = validated_data.get('quantity')
-        self.update_inventory(product, quantity)
+        # self.update_inventory(product, quantity)
         return super().update(instance, validated_data)
