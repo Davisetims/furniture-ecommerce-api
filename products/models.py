@@ -26,7 +26,7 @@ class Product(models.Model):
     product_price = models.FloatField(null=True, blank=True)
     product_inventory = models.IntegerField(null=True, blank=True)
     product_category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-    product_image  = models.ImageField(null=True,blank=True)
+    product_image  = models.ImageField(upload_to='product_images/',null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

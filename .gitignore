@@ -172,3 +172,4 @@ migrations/
 
 # Ignore media folder
 /media/
+/product_images/
