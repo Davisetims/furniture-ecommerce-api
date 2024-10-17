@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     # third party apps
     'users',
+    'products',
+
 ]
 
 SWAGGER_SETTINGS = {
