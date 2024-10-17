@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = [
-        ('customer', 'Customer')
+        ('customer', 'Customer'),
+        ('furniture_store_owner', 'Furniture Store Owner'),
         
     ]
     first_name = models.CharField(max_length=40, null=True, blank=True)
@@ -14,7 +15,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, null=True, blank=True)
     national_id = models.PositiveIntegerField(null=True,blank=True)
     password = models.CharField(max_length= 1000, null=True, blank=True)
-    user_type = models.CharField(max_length=20, choices= USER_TYPE_CHOICES, default='customer')  
+    user_type = models.CharField(max_length=30, choices= USER_TYPE_CHOICES, default='customer')  
     created_at = models.DateTimeField(auto_now_add=True)
     
 

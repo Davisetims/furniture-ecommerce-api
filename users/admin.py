@@ -12,7 +12,8 @@ class CustomUserAdmin(UserAdmin):
                     'phone_number',
                     'address',
                     'national_id',
-                    'created_at',
+                    'user_type',
+                    
                 )
             },
         ),
@@ -31,9 +32,12 @@ class CustomUserAdmin(UserAdmin):
                     'email',
                     'national_id',
                     'password',
+                    'user_type',
+                    
                 )
             },
         ),
     )
+    exclude = ('created_at',)
 
 admin.site.register(User, CustomUserAdmin)
