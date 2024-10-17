@@ -30,7 +30,16 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+                'localhost',
+                 '127.0.0.1',
+                 'ab53-102-0-4-206.ngrok-free.app',
+                 "localhost:5173",
+                 'localhost:5174',
+                 '127.0.0.1',
+                'cessfuniture.netlify.app',
+                 
+]
 
 
 # Application definition
@@ -62,7 +71,7 @@ CSP_DEFAULT_SRC = ("'self'",)
 """# Allow embedding in iframes from these specific origins"""
 CSP_FRAME_ANCESTORS = ("'self'", 'https://cessfuniture.netlify.app',
                         "http://localhost:5173",
-                        "http://localhost:5174")
+                        "http://localhost:5174",)
 
 
 CORS_ALLOW_ALL_HEADERS = True
