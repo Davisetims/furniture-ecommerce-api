@@ -25,10 +25,6 @@ class CartSerializer(serializers.ModelSerializer):
         
         return data
 
-    def update_inventory(self, product, quantity):
-        # Adjust the product inventory
-        product.product_inventory -= quantity
-        product.save()
 
     def create(self, validated_data):
         # Adjust the inventory after validation and before saving
