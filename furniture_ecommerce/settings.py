@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_spectacular',
+    'corsheaders',
     # third party apps
     'users',
     'products',
@@ -80,7 +81,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://localhost:5174',
-    'https://cessfuniture.netlify.app'
+    'https://cessfuniture.netlify.app',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -96,7 +97,7 @@ CORS_ALLOW_METHODS = [
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
     'http://localhost:5174',
-    'https://cessfuniture.netlify.app'
+    'https://cessfuniture.netlify.app',
 
 ]
 
