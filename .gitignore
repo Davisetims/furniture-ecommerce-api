@@ -173,3 +173,4 @@ migrations/
 # Ignore media folder
 /media/
 /product_images/
+/product_3d_models/
