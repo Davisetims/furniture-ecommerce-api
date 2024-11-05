@@ -2,32 +2,20 @@ from rest_framework import serializers
 from carts.models import Cart
 
 class CartSerializer(serializers.ModelSerializer):
+    items = serializers.JSONField()
+
     class Meta:
         model = Cart
-        fields = ['customer', 'product', 'quantity', 'created_at']
-    
-    def validate(self, data):
-        product = data.get('product')
-        quantity = data.get('quantity')
-        
-        if quantity == 0:
-            raise serializers.ValidationError('Quantity cannot be zero.')
+        fields = ['id', 'customer', 'items', 'created_at']
 
-        
-        if product.product_inventory == 0:
-            raise serializers.ValidationError(f'The product "{product.product_name}" is out of stock.')
-        
-        if quantity > product.product_inventory:
-            raise serializers.ValidationError(f'The quantity ({quantity}) exceeds available stock ({product.product_inventory}).')
-        
-        return data
-    
+    def validate_items(self, items):
+        # Ensure each item has 'product' and 'quantity'
+        for item in items:
+            if 'product' not in item or 'quantity' not in item:
+                raise serializers.ValidationError("Each item must include 'product' and 'quantity'.")
+            if item['quantity'] <= 0:
+                raise serializers.ValidationError("Quantity must be greater than zero.")
+        return items
+
     def create(self, validated_data):
-        product = validated_data.get('product')
-        quantity = validated_data.get('quantity')
-        return super().create(validated_data)
-
-    def update(self, instance, validated_data):
-        product = validated_data.get('product')
-        quantity = validated_data.get('quantity')
-        return super().update(instance, validated_data)
+        return Cart.objects.create(**validated_data)

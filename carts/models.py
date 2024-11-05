@@ -1,28 +1,55 @@
-from django.db import models
+from django.db import models, transaction
 from django.core.exceptions import ValidationError
 from users.models import User
+from django.db.models import JSONField
 from products.models import Product
 
 class Cart(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-    quantity = models.PositiveSmallIntegerField(default=1)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='cart_customer')
+    items = JSONField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'customer: {self.customer.username}, product: {self.product.product_name}'
-    
-    def save(self, *args, **kwargs):
-        if self.quantity == 0:
-            raise ValidationError('Quantity cannot be zero.')
-        if self.product.product_inventory == 0:
-            raise ValidationError(f'The product "{self.product.product_name}" is out of stock.')
-        
-        if self.quantity > self.product.product_inventory:
-            raise ValidationError(f'The quantity ({self.quantity}) exceeds available stock ({self.product.product_inventory}).')
- 
-        self.product.product_inventory -= self.quantity
-        self.product.save()
-        
-        super().save(*args, **kwargs)
+        return f'Cart for {self.customer.username if self.customer else "Anonymous"}'
 
+    def clean_items(self):
+        """Validate items before saving"""
+        if not isinstance(self.items, list):
+            raise ValidationError("Items must be a list of product and quantity dictionaries.")
+
+        for item in self.items:
+            product_id = item.get('product')
+            quantity = item.get('quantity')
+            
+            if not product_id or not quantity:
+                raise ValidationError("Each item must have a 'product' and 'quantity' key.")
+
+            if quantity <= 0:
+                raise ValidationError("Quantity must be greater than zero.")
+
+            product = Product.objects.filter(id=product_id).first()
+            if not product:
+                raise ValidationError(f"Product with ID {product_id} does not exist.")
+            if product.product_inventory < quantity:
+                raise ValidationError(
+                    f"Requested quantity for '{product.product_name}' exceeds available stock."
+                )
+
+    def save(self, *args, **kwargs):
+        self.clean_items()
+        with transaction.atomic():
+            for item in self.items:
+                product_id = item['product']
+                quantity = item['quantity']
+                product = Product.objects.get(id=product_id)
+
+                if product.product_inventory < quantity:
+                    raise ValidationError(
+                        f"Requested quantity for '{product.product_name}' exceeds available stock."
+                    )
+
+                # Deduct the quantity from product inventory
+                product.product_inventory -= quantity
+                product.save()
+
+            super().save(*args, **kwargs)
