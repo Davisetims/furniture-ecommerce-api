@@ -27,7 +27,7 @@ class Product(models.Model):
     product_inventory = models.IntegerField(null=True, blank=True)
     product_category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     product_image  = models.ImageField(upload_to='product_images/',null=True,blank=True)
-    product_3d_model = models.FileField(upload_to='product_3d_models/', null=True, blank=True)
+    product_3D_object = models.FileField(upload_to='product_3d_models/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
