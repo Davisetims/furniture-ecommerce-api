@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from carts.models import Cart
+from carts.models import Cart, Payment
 
 class CartSerializer(serializers.ModelSerializer):
     items = serializers.JSONField()
@@ -19,3 +19,9 @@ class CartSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Cart.objects.create(**validated_data)
+    
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ['id', 'customer', 'amount', 'payment_method', 'payment_status','created_at']
+        

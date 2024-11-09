@@ -14,4 +14,3 @@ class CartViewSet(viewsets.ModelViewSet):
             return Cart.objects.all()
         else:
             return Cart.objects.filter(customer=customer)
-        

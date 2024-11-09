@@ -7,9 +7,9 @@ class CategoryAdmin(admin.ModelAdmin):
     
 
 
-# class ProductAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'product_category','product_name', 'product_description', 'product_price', 
-#                     'product_inventory',  'product_image', 'product_3D_object', 'created_at')
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product_category','product_name', 'product_description', 'product_price', 
+                    'product_inventory',  'product_image', 'product_3D_object', 'created_at')
 
-admin.site.register(Product)
+admin.site.register(Product,ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
