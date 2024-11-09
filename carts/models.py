@@ -53,3 +53,17 @@ class Cart(models.Model):
                 product.save()
 
             super().save(*args, **kwargs)
+            
+
+class Payment(models.Model):
+    PAYMENT_METHIOD_CHOICES = [
+        ('cash', 'Cash'),
+        ('mpesa', 'Mpesa'),
+        
+    ]
+    customer = models.ForeignKey(User,on_delete=models.CASCADE)
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHIOD_CHOICES)
+    payment_date = models.DateTimeField(auto_now_add=True)
+    amount = models.FloatField()
+    payment_status = models.CharField()
+    cart = models.ForeignKey(Cart, on_delete=models.PROTECT)

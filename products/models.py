@@ -31,8 +31,9 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.product_name}, amount: {self.product_price}"
-    
+       
+        return f'{self.product_name }, price {self.product_price}'
+        
     
     
     
