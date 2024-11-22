@@ -6,11 +6,11 @@ from products.models import Product
 
 class Cart(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='cart_customer')
-    items = JSONField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    items = JSONField(null=True, blank=True,verbose_name='cart_items')
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='cart_created_at')
     
     def __str__(self):
-        return f'Cart for {self.customer.username if self.customer else "Anonymous"}'
+        return f'Cart {self.id} for {self.customer.username if self.customer else "Anonymous"}'
 
     def clean_items(self):
         """Validate items before saving"""
@@ -67,9 +67,9 @@ class Payment(models.Model):
         ('paid', 'Paid'),
         ('failed', 'Failed'),
     ]
-    customer = models.ForeignKey(User,on_delete=models.CASCADE)
-    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHIOD_CHOICES)
+    customer = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name='payment_customer')
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHIOD_CHOICES,)
     payment_date = models.DateTimeField(auto_now_add=True)
-    amount = models.FloatField()
+    amount = models.FloatField(verbose_name='payment_amount')
     payment_status = models.CharField(max_length=10, choices= PAYMENT_STATUS_CHOICES, default='pending')
-    cart = models.ForeignKey(Cart, on_delete=models.PROTECT, null=True, blank=True)
+    cart = models.ForeignKey(Cart, on_delete=models.PROTECT, null=True, blank=True, verbose_name='payment_cart')
