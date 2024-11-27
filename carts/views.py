@@ -5,9 +5,9 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 from rest_framework.exceptions import NotFound
-from users.models import User
 from carts.models import Cart, Payment
 from carts.serializers import CartSerializer, PaymentSerializer
+from products.models import Product
 
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
@@ -33,10 +33,12 @@ class PaymentViewSet(viewsets.ModelViewSet):
         else:
             return Payment.objects.filter(customer=customer)
         
+
 class GenerateInvoiceAPIView(APIView):
     """
     API View to generate and serve an invoice PDF.
     """
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, payment_id, *args, **kwargs):
         # Fetch the payment object
@@ -47,6 +49,17 @@ class GenerateInvoiceAPIView(APIView):
 
         cart = payment.cart
 
+        # Resolve product names and quantities from the cart
+        cart_items = []
+        if cart and cart.items:
+            for item in cart.items:
+                product = Product.objects.filter(id=item.get('product')).first()
+                if product:
+                    cart_items.append({
+                        "product_name": product.product_name,
+                        "quantity": item.get('quantity', 0),
+                    })
+        print(cart_items)
         # Prepare context for the invoice
         context = {
             "customer_name": f"{payment.customer.first_name} {payment.customer.last_name}",
@@ -56,7 +69,7 @@ class GenerateInvoiceAPIView(APIView):
             "amount_paid": payment.amount,
             "balance": 0,  # Replace with actual balance calculation logic if needed
             "payment_status": payment.payment_status,
-            "cart_items": cart.items if cart else [],
+            "cart_items": cart_items,
         }
 
         # Render the invoice template to HTML
