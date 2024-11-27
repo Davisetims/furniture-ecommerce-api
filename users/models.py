@@ -15,8 +15,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, null=True, blank=True, verbose_name='user_email')
     national_id = models.PositiveIntegerField(null=True,blank=True,verbose_name='user_national_id')
     password = models.CharField(max_length= 1000, null=True, blank=True, verbose_name='user_password')
-    user_type = models.CharField(max_length=30, choices= USER_TYPE_CHOICES, default='customer')  
-    created_at = models.DateTimeField(auto_now_add=True)
+    user_type = models.CharField(max_length=30, choices= USER_TYPE_CHOICES, default='customer', verbose_name='user_type')  
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='user_created_at')
     
 
     def __str__(self):

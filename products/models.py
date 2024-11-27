@@ -21,14 +21,14 @@ class Category(models.Model):
     
     
 class Product(models.Model):
-    product_name = models.CharField(max_length=100)
-    product_description = models.TextField(null=True, blank=True)
-    product_price = models.FloatField()
-    product_image = models.ImageField(upload_to='product_image/', null=True, blank=True)
-    product_category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    product_inventory = models.IntegerField(null=True, blank=True)
-    product_3D_object = models.FileField(upload_to='product_3d_models/', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    product_name = models.CharField(max_length=100, verbose_name='product_name')
+    product_description = models.TextField(null=True, blank=True, verbose_name='product_description')
+    product_price = models.FloatField(verbose_name='product_price')
+    product_image = models.ImageField(upload_to='product_image/', null=True, blank=True, verbose_name='product_image')
+    product_category = models.ForeignKey(Category, on_delete=models.CASCADE,verbose_name='product_category')
+    product_inventory = models.IntegerField(null=True, blank=True,verbose_name='product_inventory')
+    product_3D_object = models.FileField(upload_to='product_3d_models/', null=True, blank=True, verbose_name='product_3D_object')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='product_created_at')
     
     
     def __str__(self):

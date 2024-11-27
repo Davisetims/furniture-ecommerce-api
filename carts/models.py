@@ -11,6 +11,8 @@ class Cart(models.Model):
     
     def __str__(self):
         return f'Cart {self.id} for {self.customer.username if self.customer else "Anonymous"}'
+    
+
 
     def clean_items(self):
         """Validate items before saving"""
@@ -68,8 +70,8 @@ class Payment(models.Model):
         ('failed', 'Failed'),
     ]
     customer = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name='payment_customer')
-    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHIOD_CHOICES,)
-    payment_date = models.DateTimeField(auto_now_add=True)
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHIOD_CHOICES,verbose_name='payment_method')
+    payment_date = models.DateTimeField(auto_now_add=True, verbose_name='payment_date')
     amount = models.FloatField(verbose_name='payment_amount')
-    payment_status = models.CharField(max_length=10, choices= PAYMENT_STATUS_CHOICES, default='pending')
+    payment_status = models.CharField(max_length=10, choices= PAYMENT_STATUS_CHOICES, default='pending', verbose_name='payment_status')
     cart = models.ForeignKey(Cart, on_delete=models.PROTECT, null=True, blank=True, verbose_name='payment_cart')
