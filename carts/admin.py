@@ -21,7 +21,7 @@ class CartAdmin(admin.ModelAdmin):
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['payment_id', 'customer', 'cart','payment_method', 'payment_date', 'payment_status', 'amount']
+    list_display = ['payment_id', 'customer_id', 'cart','payment_method', 'payment_date', 'payment_status', 'amount']
     
     def payment_id(self,obj):
         return obj.id
