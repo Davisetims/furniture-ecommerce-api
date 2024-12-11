@@ -31,7 +31,7 @@ class CustomUserAdmin(UserAdmin):
                     'address',
                     'email',
                     'national_id',
-                    'password',
+                    # 'password',
                     'user_type',
                 )
             },
