@@ -13,11 +13,11 @@ class CartAdmin(admin.ModelAdmin):
     
     def cart_id(self, obj):
         return obj.id
-    cart_id.short_description = 'Cart ID'
+    cart_id.short_description = 'cart_id'
 
     def customer_id(self, obj):
         return obj.customer.id if obj.customer else 'No Customer'
-    customer_id.short_description = 'Customer ID'
+    customer_id.short_description = 'Customer_id'
 
 
 class PaymentAdmin(admin.ModelAdmin):
@@ -26,6 +26,10 @@ class PaymentAdmin(admin.ModelAdmin):
     def payment_id(self,obj):
         return obj.id
     payment_id.short_description = 'payment_id'
+
+    def customer_id(self, obj):
+        return obj.customer.id if obj.customer else 'No Customer'
+    customer_id.short_description = 'Customer_id'
     
     
 admin.site.register(Cart, CartAdmin)
