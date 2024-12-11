@@ -19,8 +19,7 @@ class CartAdmin(admin.ModelAdmin):
         return obj.customer.id if obj.customer else 'No Customer'
     customer_id.short_description = 'Customer ID'
 
-admin.site.register(Cart, CartAdmin)
-    
+
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ['payment_id', 'customer', 'cart','payment_method', 'payment_date', 'payment_status', 'amount']
     
